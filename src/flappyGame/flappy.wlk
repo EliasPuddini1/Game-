@@ -2,14 +2,30 @@ import wollok.game.*
 import obstacles.*
 
 object flappy {
-	const fallSpeed = 250
+	
+	const fallSpeed = 300
 	var image = 'flappyImages/flappy.png'
 	var position = game.at(6,10)
 	
 	method image() = image
+	
 	method position() { return position }
+	
 	method position(newPosition) { position = newPosition }
-	method fallSpeed() = fallSpeed
+	
+	method fallSpeed(score){
+		
+		if(score < 50){
+			return fallSpeed
+		}
+		if(score > 79){
+			return (fallSpeed * 2.5)
+		}
+		if(80 > score > 49){
+			return (fallSpeed * 2)
+		}
+		else return fallSpeed
+	}
 	
 	method initialPosition() { position = game.at(6,10) }
 	

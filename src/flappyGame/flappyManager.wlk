@@ -1,7 +1,6 @@
 import wollok.game.*
 import flappy.*
 import obstacles.*
-import gameManager.*
 
 object flappyGame {
 	
@@ -58,7 +57,7 @@ object flappyGame {
 		})
 			
 		// Caida del pajaro
-		game.onTick(flappy.fallSpeed(), 'free fall', {
+		game.onTick(flappy.fallSpeed(totalScore), 'free fall', {
 			flappy.fall()
 		})
 		
@@ -91,16 +90,11 @@ object flappyGame {
 			self.play()
 		})
 		
-		keyboard.r().onPressDo({ self.cerrarJuego() })
+		keyboard.r().onPressDo{}
 		
 	}
 	
 	method totalScore() = totalScore
-	
-	method cerrarJuego() {
-		game.clear()
-		gameManager.mostrarMenu()
-	}
 	
 }
 
