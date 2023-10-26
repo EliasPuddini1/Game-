@@ -1,0 +1,10 @@
+import wollok.game.*
+import flappyGame.flappyManager.flappyGame
+import juego.*
+
+///////// PROGRAM /////////
+
+program juego { 	
+	juego.inicializar()// fija ciertas constantes (fondo, ancho, alto, etc)
+	game.start()
+}
