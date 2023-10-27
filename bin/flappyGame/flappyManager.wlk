@@ -43,7 +43,14 @@ object flappyGame {
 		game.addVisual(scoreNumber)
 
 		// Events
-		keyboard.space().onPressDo({ flappy.fly() })
+		keyboard.w().onPressDo({ flappy.fly() })
+		keyboard.up().onPressDo({ flappy.fly() })
+		keyboard.down().onPressDo{flappy.falling() }
+		keyboard.s().onPressDo{flappy.falling() }
+		keyboard.a().onPressDo{flappy.left()}
+		keyboard.left().onPressDo{flappy.left()}
+		keyboard.d().onPressDo{flappy.right()}
+		keyboard.right().onPressDo{flappy.right()}
 		
 		// Puntaje
 		game.onTick(1000, 'add score', {
@@ -51,8 +58,8 @@ object flappyGame {
 			scoreNumber.changeScoreImage(totalScore)			
 		})
 		
-		// Creacion de los obstaculos cada 3 segundos fuera de la pantalla
-		game.onTick(3500, 'obstacle appear', {
+		// Creacion de los obstaculos cada 2 segundos 
+		game.onTick(2000, 'obstacle appear', {
 			obstacles.render()
 		})
 			
@@ -62,15 +69,35 @@ object flappyGame {
 		})
 		
 		// Movimiento de los obstaculos
-		game.onTick(250, 'obstacles movement', {
-			obstacles.getCollection().forEach({ 
-				obstacle => obstacle.forEach({ 
-					piece => obstacles.behaviour(piece)
+		
+		if(totalScore < 40){
+			game.onTick(250, 'obstacles movement', {
+				obstacles.getCollection().forEach({ 
+					obstacle => obstacle.forEach({ 
+						piece => obstacles.behaviour(piece)
+					})
 				})
 			})
-		})
-		
+		}if(60>totalScore > 39){
+			game.onTick(230, 'obstacles movement', {
+				obstacles.getCollection().forEach({ 
+					obstacle => obstacle.forEach({ 
+						piece => obstacles.behaviour(piece)
+					})
+				})
+			})
+		}else{
+			game.onTick(200, 'obstacles movement', {
+				obstacles.getCollection().forEach({ 
+					obstacle => obstacle.forEach({ 
+						piece => obstacles.behaviour(piece)
+					})
+				})
+			})
+		}
 	}
+	
+		//mostrar menu
 	
 	method showMenu() {
 		
@@ -78,6 +105,8 @@ object flappyGame {
 			position = game.origin(), 
 			image='flappyImages/score_'+ totalScore.toString() +'.png'
 		)
+		const rain = game.sound("sounds/musica.mp3")
+		rain.shouldLoop(true)
 		game.clear()	
 		self.init()
 		game.addVisual(menu)
@@ -99,7 +128,10 @@ object flappyGame {
 }
 
 object background{
-	method image() = 'flappyImages/flappy_background.png'
+	
+	var image = 'flappyImages/flappy_background.png'
+	
+	method image() = image
 	method position() = game.origin() 
 }
 
@@ -110,7 +142,7 @@ object menu {
 
 class Score {
 	var property position
-	var property image	
+	var property image
 
 	method position() = position
 	method position(newPosition) = { position = newPosition } 

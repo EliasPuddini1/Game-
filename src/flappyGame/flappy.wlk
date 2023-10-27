@@ -3,7 +3,7 @@ import obstacles.*
 
 object flappy {
 	
-	const fallSpeed = 300
+	var fallSpeed = 300
 	var image = 'flappyImages/flappy.png'
 	var position = game.at(6,10)
 	
@@ -15,15 +15,25 @@ object flappy {
 	
 	method fallSpeed(score){
 		
-		if(score < 50){
+		if(score < 20){
 			return fallSpeed
 		}
-		if(score > 79){
-			return (fallSpeed * 2.5)
-		}
-		if(80 > score > 49){
+		if(30 > score > 19){
 			return (fallSpeed * 2)
 		}
+		if(45 >score > 29){
+			return (fallSpeed * 2.5)
+		}
+		if(60>score>44){
+			
+			self.setFallSpeed(fallSpeed*3)
+			return(fallSpeed)
+		}
+		if(score >59){
+			
+			return(fallSpeed*score)
+		}
+		
 		else return fallSpeed
 	}
 	
@@ -34,8 +44,27 @@ object flappy {
 		image = 'flappyImages/flappy.png'
 	}
 	
+	method falling(){
+		self.position(game.at(position.x(), position.y() - 2))
+		image = 'flappyImages/flappy2.png'
+	}
+	
+	method left(){
+		self.position(game.at(position.x() - 2, position.y()))
+		image = 'flappyImages/flappy2.png'
+	}
+	
+	method right(){
+		self.position(game.at(position.x() + 2, position.y()))
+		image = 'flappyImages/flappy2.png'
+	}
+	
 	method fly() {
 		self.position(game.at(position.x(), position.y() + 2))
 		image = 'flappyImages/flappy2.png'
-	}	
+	}
+	
+	method setFallSpeed(score){
+		fallSpeed = score
+	}
 }
